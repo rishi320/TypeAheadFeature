@@ -1,0 +1,36 @@
+html{
+  box-sizing: border-box;
+  background-color: #363062;
+  font-family: 'helvetica neue';
+  font-size: 20px;
+  font-weight: 200;
+  text-align: center;
+}
+
+
+input{
+    width: 80%;
+    height: 20px;
+    border: 1px solid #363062;
+    border-radius: 5px;
+    background-color: #E9D5DA;
+    color: white;
+}
+
+ul{
+    width: 80%;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+li{
+    border: 1px solid #827397;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+.hl{
+    background-color: #827397;
+}

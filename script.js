@@ -1,50 +1,39 @@
-let stocks = {
-    Fruits : ["strawberry", "grapes", "banana", "apple"],
-    liquid : ["water", "ice"],
-    holder : ["cone", "cup", "stick"],
-    toppings : ["chocolate", "peanuts"],
- };
-//callback
-//  const order = (Fruit_name, call_prod) =>{
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-//     setTimeout(()=>{
-//         console.log(`Order placed for ${stocks.Fruits[Fruit_name]}`);
-//         call_prod();
-//     }, 2000)
+const cities =[];
 
-//  }
+fetch(endpoint)
+.then(blob => blob.json())
+.then(data => cities.push(...data))
 
-//  const production = ()=>{
-     
-//      setTimeout(()=>{
-//         //  console.log("this is a settimeout with zero seconds")
-//          console.log("production statred");
+function findMatches(wordTomatch, cities){
+    return cities.filter(place =>{
+        let regex = new RegExp(wordTomatch, "gi");
 
-//          setTimeout(()=>{
-//              console.log("Fruits are chopped");
+        return place.city.match(regex) || place.state.match(regex);
+    });
+}
 
-//              setTimeout(()=>{
+function displayNames(){
+    // console.log(this.value);
+    const matchedArr = findMatches(this.value, cities);
+    const html = matchedArr.map(place =>{
+        let regex = new RegExp(this.value, 'gi');
+        const cityName = place.city.replace(regex, `<span class='hl'>${this.value}</span>`);
+        const stateName = place.state.replace(regex, `<span class='hl'>${this.value}</span>`);
+        return `
+        <li>
+          <span class='name'>${cityName}, ${stateName}</span>
+          <span class='population'>${place.population}</span>
+        </li>
+        `;
+    }).join('');
+    suggestions.innerHTML = html;
+    console.log(matchedArr);
+}
 
-//                 console.log(`${stocks.liquid[0]} and ${stocks.liquid[1]} are added`);
+const searchInput = document.querySelector(".search");
+const suggestions = document.querySelector(".suggestions");
 
-//                 setTimeout(()=>{
-//                     console.log("Machine is started");
-
-//                     setTimeout(()=>{
-//                         console.log(`${stocks.holder[0]} is selected and ice cream is placed on it`);
-
-//                         setTimeout(()=>{
-//                             console.log(`${stocks.toppings[0]} are selected and added on top of ice cream`);
-
-//                             setTimeout(()=>{
-//                                 console.log("ice cream is served");
-//                             },2000)
-//                         },3000)
-//                     }, 2000)
-//                 }, 1000)
-//              }, 1000)
-//          }, 2000)
-//         }, 0000);
-
-//     }
-
+searchInput.addEventListener('change', displayNames);
+searchInput.addEventListener('keyup', displayNames);
